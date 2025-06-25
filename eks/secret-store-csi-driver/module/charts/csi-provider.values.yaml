@@ -1,0 +1,5 @@
+---
+resources: ${jsonencode(resources)}
+
+tolerations: 
+  - operator: Exists

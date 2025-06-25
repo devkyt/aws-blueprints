@@ -1,0 +1,23 @@
+
+nodeSelector: ${jsonencode(node_selector)}
+
+settings:
+  clusterName: ${ cluster_name }
+  clusterEndpoint: ${ cluster_endpoint }
+  interruptionQueue: ${ interruption_queue }
+
+tolerations: ${jsonencode(tolerations)}
+
+webhook:
+  enabled: false
+
+logLevel: debug
+
+controller:
+  resources:
+    limits:
+      cpu: 1
+      memory: 3Gi
+    requests:
+      cpu: 1
+      memory: 3Gi

@@ -1,0 +1,18 @@
+apiVersion: karpenter.k8s.aws/v1
+kind: EC2NodeClass
+metadata:
+  name: "${ class_name }"
+spec:
+  role: "${ iam_role }" 
+  amiFamily: AL2
+  amiSelectorTerms:
+   - id: "${ ami }" 
+  subnetSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: "${ cluster_name }" 
+  securityGroupSelectorTerms:
+    - id: "${ security_group_id }"
+  metadataOptions:
+    httpEndpoint: enabled
+    httpPutResponseHopLimit: 2
+    httpTokens: required

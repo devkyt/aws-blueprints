@@ -1,0 +1,4 @@
+clusterName: ${ cluster_name }
+
+nodeSelector: ${jsonencode(node_selector)}
+tolerations: ${jsonencode(tolerations)}
