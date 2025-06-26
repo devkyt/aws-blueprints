@@ -79,3 +79,9 @@ variable "secrets_store_csi_provider_aws_resources" {
     }
   }
 }
+
+variable "sync_secrets_to_cluster" {
+  description = "Synce external secrets to the cluster as Kubernetes secrets"
+  type        = bool
+  default     = false
+}

@@ -1,7 +1,8 @@
 module "secret_store_csi_driver" {
   source = "git::git@github.com:adtriba/aws-blueprints.git//eks/secret-store-csi-driver/module"
 
-  namespace = "default"
+  namespace               = "default"
+  sync_secrets_to_cluster = true
 
   secrets_store_csi_driver = { chart_version = "1.5.1" }
 

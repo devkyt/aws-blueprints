@@ -1,3 +1,6 @@
 ---
 driver:
   resources: ${jsonencode(resources)}
+
+syncSecret:
+  enabled: ${sync_secret}

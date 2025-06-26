@@ -1,3 +1,11 @@
+terraform {
+  backend "s3" {
+    bucket = "bucket"
+    region = local.region
+    key    = "path/to/terraform.tfstate"
+  }
+}
+
 provider "aws" {
   region = local.region
 }
