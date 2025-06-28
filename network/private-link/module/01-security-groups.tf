@@ -1,4 +1,4 @@
-resource "aws_security_group" "nlb_security_group" {
+resource "aws_security_group" "nlb" {
   name        = "${local.private_link_name}-nlb-sg"
   description = "Traffic to the network load balancer within the provider VPC"
 
@@ -18,11 +18,14 @@ resource "aws_security_group" "nlb_security_group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = merge(local.tags, { Name = "${local.private_link_name}-nlb-sg" })
+  tags = merge(local.tags, {
+    Name = "${local.private_link_name}-nlb-sg"
+    Type = "Security Group"
+  })
 }
 
 
-resource "aws_security_group" "alb_security_group" {
+resource "aws_security_group" "alb" {
   name        = "${local.private_link_name}-alb-sg"
   description = "Traffic to the application load balancer within the provider VPC"
 
@@ -32,7 +35,7 @@ resource "aws_security_group" "alb_security_group" {
     protocol        = "tcp"
     from_port       = local.port
     to_port         = local.port
-    security_groups = [aws_security_group.nlb_security_group.id]
+    security_groups = [aws_security_group.nlb.id]
   }
 
   egress {
@@ -42,11 +45,14 @@ resource "aws_security_group" "alb_security_group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = merge(local.tags, { Name = "${local.private_link_name}-alb-sg" })
+  tags = merge(local.tags, {
+    Name = "${local.private_link_name}-alb-sg"
+    Type = "Security Group"
+  })
 }
 
 
-resource "aws_security_group" "private_link_endpoint_sg" {
+resource "aws_security_group" "private_link_endpoint" {
   name        = "${local.private_link_name}-endpoint-sg"
   description = "Traffic to the private link endpoint within the consumer VPC"
 
@@ -66,5 +72,8 @@ resource "aws_security_group" "private_link_endpoint_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = merge(local.tags, { Name = "${local.private_link_name}-endpoint-sg" })
+  tags = merge(local.tags, {
+    Name = "${local.private_link_name}-endpoint-sg"
+    Type = "Security Group"
+  })
 }

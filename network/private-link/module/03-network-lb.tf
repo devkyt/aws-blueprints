@@ -4,10 +4,13 @@ resource "aws_lb" "nlb" {
 
   name              = local.nlb_name
   subnets           = var.aws_provider.subnets_ids
-  security_groups   = [aws_security_group.nlb_security_group.id]
+  security_groups   = [aws_security_group.nlb.id]
   client_keep_alive = var.network_load_balancer.keep_alive
 
-  tags = merge(local.tags, { Name = local.nlb_name, Type = "network" })
+  tags = merge(local.tags, {
+    Name = local.nlb_name
+    Type = "Network Load Balancer"
+  })
 }
 
 
@@ -29,7 +32,10 @@ resource "aws_lb_target_group" "nlb_target" {
     matcher             = "200-399"
   }
 
-  tags = merge(local.tags, { Name = "${local.nlb_name}-target", Type = "ALB" })
+  tags = merge(local.tags, {
+    Name = "${local.nlb_name}-target"
+    Type = "Target Group (IP)"
+  })
 }
 
 
@@ -50,5 +56,8 @@ resource "aws_lb_listener" "nlb_listener" {
     target_group_arn = aws_lb_target_group.nlb_target.arn
   }
 
-  tags = merge(local.tags, { Name = "${local.nlb_name}-listener", Protocol = "TCP" })
+  tags = merge(local.tags, {
+    Name     = "${local.nlb_name}-listener"
+    Protocol = "TCP"
+  })
 }

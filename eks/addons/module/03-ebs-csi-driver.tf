@@ -1,3 +1,29 @@
+resource "aws_eks_addon" "ebs_csi_driver" {
+  addon_name                  = "aws-ebs-csi-driver"
+  addon_version               = var.ebs_csi_driver_addon.version
+  cluster_name                = var.cluster_name
+  resolve_conflicts_on_create = "OVERWRITE"
+
+  service_account_role_arn = aws_iam_role.ebs_csi_driver.arn
+
+  configuration_values = jsonencode({
+    controller = {
+      tolerations  = var.ebs_csi_driver_addon.tolerations
+      nodeSelector = var.ebs_csi_driver_addon.node_selector
+    }
+    node = { tolerateAllTaints : true }
+  })
+
+  tags = merge(local.tags,
+    {
+      Name  = "${var.cluster_name}-ebs-csi-driver"
+      Type  = "EBS CSI Driver Addon"
+      Addon = true
+    }
+  )
+}
+
+
 data "aws_iam_policy_document" "ebs_csi_driver" {
   statement {
     effect = "Allow"
@@ -14,26 +40,30 @@ data "aws_iam_policy_document" "ebs_csi_driver" {
   }
 }
 
+
 resource "aws_iam_role" "ebs_csi_driver" {
   name               = "${var.cluster_name}-ebs-csi-driver"
   assume_role_policy = data.aws_iam_policy_document.ebs_csi_driver.json
 
   tags = merge(local.tags,
     {
-      Name = "ebs-csi-driver"
-      Type = "Storage"
+      Name = "${var.cluster_name}-ebs-csi-driver"
+      Type = "IAM Role"
     }
   )
 }
+
 
 data "aws_iam_policy" "ebs_csi_driver_policy" {
   arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
 }
 
+
 resource "aws_iam_role_policy_attachment" "ebs_csi_driver_policy_attachment" {
   policy_arn = data.aws_iam_policy.ebs_csi_driver_policy.arn
   role       = aws_iam_role.ebs_csi_driver.name
 }
+
 
 # Encrypt EBS drives
 resource "aws_iam_policy" "ebs_csi_driver_encryption_policy" {
@@ -54,40 +84,37 @@ resource "aws_iam_policy" "ebs_csi_driver_encryption_policy" {
     ]
   })
 
-  tags = merge({ "Name" = "${var.cluster_name}-iam-policy" }, local.tags)
+  tags = merge(local.tags,
+    {
+      Name    = "${var.cluster_name}-ebs-csi-driver-encryption"
+      Type    = "IAM Policy"
+      Cluster = var.cluster_name
+    }
+  )
 }
+
 
 resource "aws_iam_role_policy_attachment" "ebs_csi_driver_encryption_policy_attachment" {
   policy_arn = aws_iam_policy.ebs_csi_driver_encryption_policy.arn
   role       = aws_iam_role.ebs_csi_driver.name
 }
 
+
 resource "aws_eks_pod_identity_association" "ebs_csi_driver_identity" {
   cluster_name    = var.cluster_name
   namespace       = "kube-system"
   service_account = var.ebs_csi_driver_addon.service_account_name
   role_arn        = aws_iam_role.ebs_csi_driver.arn
-}
-
-resource "aws_eks_addon" "ebs_csi_driver" {
-  cluster_name             = var.cluster_name
-  addon_name               = var.ebs_csi_driver_addon.name
-  addon_version            = var.ebs_csi_driver_addon.version
-  service_account_role_arn = aws_iam_role.ebs_csi_driver.arn
-
-  configuration_values = jsonencode({
-    controller = {
-      tolerations  = var.system_workload_common_config.tolerations
-      nodeSelector = var.system_workload_common_config.node_selector
-    }
-    node = { tolerateAllTaints : true }
-  })
 
   tags = merge(local.tags,
     {
-      Name  = "ebs-csi-driver"
-      Type  = "Storage"
-      Addon = true
+      Name           = "${var.ebs_csi_driver_addon.service_account_name}-pod-identity"
+      Type           = "Pod Identity Association"
+      ServiceAccount = var.ebs_csi_driver_addon.service_account_name
+      Role           = aws_iam_role.ebs_csi_driver.name
     }
   )
 }
+
+
+

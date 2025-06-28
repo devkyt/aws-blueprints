@@ -9,10 +9,9 @@ resource "aws_security_group" "current" {
     security_groups = var.network_rules.allowed_security_groups
   }
 
-  tags = merge(local.tags,
-    {
-      Name = "${local.database_identifier}-sg"
-      For  = local.database_identifier
-    }
-  )
+  tags = merge(local.tags, {
+    Name = "${local.database_identifier}-sg"
+    Type = "Security Group"
+    For  = local.database_identifier
+  })
 }

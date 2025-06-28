@@ -19,5 +19,8 @@ resource "aws_security_group" "current" {
     ipv6_cidr_blocks = ["::/0"]
   }
 
-  tags = merge(local.tags, { Name = "${local.name}-sg" })
+  tags = merge(local.tags, {
+    Name = "${local.name}-sg"
+    Type = "Security Group"
+  })
 }

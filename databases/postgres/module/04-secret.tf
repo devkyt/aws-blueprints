@@ -2,12 +2,11 @@ resource "aws_secretsmanager_secret" "main" {
   name        = "${local.database_identifier}-secret"
   description = "Credentials for the ${local.database_identifier} database"
 
-  tags = merge(local.tags,
-    {
-      Name = "${local.database_identifier}-secret"
-      For  = local.database_identifier
-    }
-  )
+  tags = merge(local.tags, {
+    Name = "${local.database_identifier}-secret"
+    Type = "Secret"
+    For  = local.database_identifier
+  })
 
   depends_on = [aws_db_instance.current]
 }

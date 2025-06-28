@@ -24,56 +24,65 @@ variable "vpc_id" {
 }
 
 
-variable "pod_identity" {
+variable "pod_identity_addon" {
   description = "Configuration for the Pod Identity"
   type = object({
-    name     = string
-    version  = string
-    replicas = number
+    version = string
   })
   default = {
-    name     = "coredns"
-    version  = "v1.11.4-eksbuild.2"
-    replicas = 3
+    version = "v1.2.0-eksbuild.1"
   }
 }
 
 
-variable "core_dns" {
+variable "core_dns_addon" {
   description = "Configuration for the Core DNS"
   type = object({
-    name     = string
     version  = string
     replicas = number
+    tolerations = list(object({
+      key      = string
+      operator = string
+      value    = string
+      effect   = string
+    }))
+    node_selector = map(string)
   })
   default = {
-    name     = "coredns"
-    version  = "v1.11.4-eksbuild.2"
-    replicas = 3
+    version       = "v1.11.4-eksbuild.2"
+    replicas      = 3
+    tolerations   = []
+    node_selector = {}
   }
 }
 
 
-variable "ebs_csi_driver" {
+variable "ebs_csi_driver_addon" {
   description = "Configuration for the EBS CSI driver"
   type = object({
-    name                 = string
     version              = string
     service_account_name = string
+    tolerations = list(object({
+      key      = string
+      operator = string
+      value    = string
+      effect   = string
+    }))
+    node_selector = map(string)
   })
   default = {
-    name                 = "aws-ebs-csi-driver"
     version              = "v1.41.0-eksbuild.1"
     service_account_name = "ebs-csi-controller-sa"
+    tolerations          = []
+    node_selector        = {}
   }
 }
 
 
 
-variable "load_balancer" {
+variable "load_balancer_addon" {
   description = "Configuration for the Load Balancer"
   type = object({
-    name                 = string
     version              = string
     service_account_name = string
   })

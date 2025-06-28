@@ -8,8 +8,7 @@ locals {
 
   tags = merge(var.tags, {
     Env       = var.env
-    PartOf    = "private-link"
-    Terraform = "true"
-    }
-  )
+    PartOf    = local.private_link_name
+    Terraform = true
+  })
 }

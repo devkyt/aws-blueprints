@@ -5,7 +5,7 @@ resource "aws_db_subnet_group" "current" {
   tags = merge(local.tags,
     {
       Name = "${local.database_identifier}-subnet-group"
+      Type = "Subnet Group"
       For  = local.database_identifier
-    }
-  )
+  })
 }

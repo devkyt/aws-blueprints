@@ -6,7 +6,10 @@ resource "aws_route_table" "private" {
     nat_gateway_id = aws_nat_gateway.current.id
   }
 
-  tags = merge(local.common_tags, { Name = "${var.env}-private-route-table" })
+  tags = merge(local.common_tags, {
+    Name = "${var.env}-private-route-table"
+    Type = "Private Route Table"
+  })
 }
 
 
@@ -26,7 +29,10 @@ resource "aws_route_table" "public" {
     gateway_id = aws_internet_gateway.current.id
   }
 
-  tags = merge(local.common_tags, { Name = "${var.env}-public-route-table" })
+  tags = merge(local.common_tags, {
+    Name = "${var.env}-public-route-table"
+    Type = "Public Route Table"
+  })
 }
 
 

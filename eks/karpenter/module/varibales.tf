@@ -4,6 +4,7 @@ variable "env" {
   default     = "dev"
 }
 
+
 variable "region" {
   type        = string
   description = "AWS region"
