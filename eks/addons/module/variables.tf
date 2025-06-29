@@ -4,7 +4,6 @@ variable "env" {
   default     = "dev"
 }
 
-
 variable "region" {
   description = "AWS region"
   type        = string
@@ -24,13 +23,20 @@ variable "vpc_id" {
 }
 
 
+variable "namespace" {
+  description = "Namespace to deploy the addons"
+  type        = string
+  default     = "kube-system"
+}
+
+
 variable "pod_identity_addon" {
   description = "Configuration for the Pod Identity"
   type = object({
     version = string
   })
   default = {
-    version = "v1.2.0-eksbuild.1"
+    version = "v1.3.7-eksbuild.2"
   }
 }
 
@@ -49,7 +55,7 @@ variable "core_dns_addon" {
     node_selector = map(string)
   })
   default = {
-    version       = "v1.11.4-eksbuild.2"
+    version       = "v1.11.4-eksbuild.14"
     replicas      = 3
     tolerations   = []
     node_selector = {}
@@ -71,7 +77,7 @@ variable "ebs_csi_driver_addon" {
     node_selector = map(string)
   })
   default = {
-    version              = "v1.41.0-eksbuild.1"
+    version              = "v1.45.0-eksbuild.2"
     service_account_name = "ebs-csi-controller-sa"
     tolerations          = []
     node_selector        = {}
@@ -87,9 +93,9 @@ variable "load_balancer_addon" {
     service_account_name = string
   })
   default = {
-    name                 = "aws-ebs-csi-driver"
-    version              = "v1.41.0-eksbuild.1"
-    service_account_name = "ebs-csi-controller-sa"
+    name                 = "aws-load-balancer-controller"
+    version              = "2.13.3"
+    service_account_name = "aws-load-balancer-controller"
   }
 }
 

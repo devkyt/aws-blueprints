@@ -11,7 +11,18 @@ variable "chart_version" {
 }
 
 
-variable "node_selector" {}
+variable "node_selector" {
+  description = "Labels on nodes where KEDA should be deployed"
+  type        = map(string)
+}
 
 
-variable "tolerations" {}
+variable "tolerations" {
+  description = "Tolerations for the KEDA deployment"
+  type = list(object({
+    key      = string
+    operator = string
+    value    = string
+    effect   = string
+  }))
+}
