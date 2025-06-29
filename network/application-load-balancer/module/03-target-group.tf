@@ -18,10 +18,12 @@ resource "aws_lb_target_group" "current" {
     matcher             = "200-399"
   }
 
-  tags = merge(local.tags, {
-    Name = "${local.name}-${var.target_group.name}"
-    Type = "Target Group (IP)"
-  })
+  tags = merge(local.tags,
+    {
+      Name = "${local.name}-${var.target_group.name}"
+      Type = "Target Group (IP)"
+    }
+  )
 }
 
 data "aws_lb_target_group" "current" {

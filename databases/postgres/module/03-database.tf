@@ -44,9 +44,11 @@ resource "aws_db_instance" "current" {
   monitoring_role_arn             = var.monitoring_role_arn
   enabled_cloudwatch_logs_exports = ["postgresql"]
 
-  tags = merge(local.tags, {
-    Name = "${local.database_identifier}-db"
-    Type = "postgres"
-    For  = var.service
-  })
+  tags = merge(local.tags,
+    {
+      Name = "${local.database_identifier}-db"
+      Type = "postgres"
+      For  = var.service
+    }
+  )
 }

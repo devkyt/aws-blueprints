@@ -28,10 +28,12 @@ resource "aws_lb_listener" "https" {
     target_group_arn = data.aws_lb_target_group.current.arn
   }
 
-  tags = merge(local.tags, {
-    Name     = "${local.name}-https-listener"
-    Protocol = "HTTPS"
-  })
+  tags = merge(local.tags,
+    {
+      Name     = "${local.name}-https-listener"
+      Protocol = "HTTPS"
+    }
+  )
 }
 
 
@@ -50,8 +52,10 @@ resource "aws_lb_listener" "http" {
     }
   }
 
-  tags = merge(local.tags, {
-    Name     = "${local.name}-http-listener"
-    Protocol = "HTTP"
-  })
+  tags = merge(local.tags,
+    {
+      Name     = "${local.name}-http-listener"
+      Protocol = "HTTP"
+    }
+  )
 }

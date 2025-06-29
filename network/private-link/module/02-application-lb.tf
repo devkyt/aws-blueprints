@@ -51,8 +51,10 @@ resource "aws_lb_listener" "alb_listener" {
     target_group_arn = aws_lb_target_group.alb_target.arn
   }
 
-  tags = merge(local.tags, {
-    Name     = "${local.alb_name}-listener"
-    Protocol = "HTTPS"
-  })
+  tags = merge(local.tags,
+    {
+      Name     = "${local.alb_name}-listener"
+      Protocol = "HTTPS"
+    }
+  )
 }

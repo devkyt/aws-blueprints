@@ -7,5 +7,6 @@ resource "aws_db_subnet_group" "current" {
       Name = "${local.database_identifier}-subnet-group"
       Type = "Subnet Group"
       For  = local.database_identifier
-  })
+    }
+  )
 }

@@ -72,8 +72,10 @@ resource "aws_security_group" "private_link_endpoint" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = merge(local.tags, {
-    Name = "${local.private_link_name}-endpoint-sg"
-    Type = "Security Group"
-  })
+  tags = merge(local.tags,
+    {
+      Name = "${local.private_link_name}-endpoint-sg"
+      Type = "Security Group"
+    }
+  )
 }

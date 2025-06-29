@@ -7,10 +7,12 @@ resource "aws_lb" "nlb" {
   security_groups   = [aws_security_group.nlb.id]
   client_keep_alive = var.network_load_balancer.keep_alive
 
-  tags = merge(local.tags, {
-    Name = local.nlb_name
-    Type = "Network Load Balancer"
-  })
+  tags = merge(local.tags,
+    {
+      Name = local.nlb_name
+      Type = "Network Load Balancer"
+    }
+  )
 }
 
 
@@ -56,8 +58,10 @@ resource "aws_lb_listener" "nlb_listener" {
     target_group_arn = aws_lb_target_group.nlb_target.arn
   }
 
-  tags = merge(local.tags, {
-    Name     = "${local.nlb_name}-listener"
-    Protocol = "TCP"
-  })
+  tags = merge(local.tags,
+    {
+      Name     = "${local.nlb_name}-listener"
+      Protocol = "TCP"
+    }
+  )
 }

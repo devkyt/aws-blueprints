@@ -6,9 +6,11 @@ locals {
   alb_name = "${var.env}-${var.application_load_balancer.name}-alb"
   nlb_name = "${var.env}-${var.network_load_balancer.name}-nlb"
 
-  tags = merge(var.tags, {
-    Env       = var.env
-    PartOf    = local.private_link_name
-    Terraform = true
-  })
+  tags = merge(var.tags,
+    {
+      Env       = var.env
+      PartOf    = local.private_link_name
+      Terraform = true
+    }
+  )
 }

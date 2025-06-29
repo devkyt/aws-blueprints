@@ -5,11 +5,13 @@ resource "aws_subnet" "private" {
   cidr_block        = var.private_subnets.cidr_blocks[count.index]
   availability_zone = var.availability_zones[count.index]
 
-  tags = merge(local.private_subnets_tags, {
-    Name             = "${var.env}-private-subnet-${count.index}"
-    Type             = "Private Subnet"
-    AvailabilityZone = var.availability_zones[count.index]
-  })
+  tags = merge(local.private_subnets_tags,
+    {
+      Name             = "${var.env}-private-subnet-${count.index}"
+      Type             = "Private Subnet"
+      AvailabilityZone = var.availability_zones[count.index]
+    }
+  )
 }
 
 

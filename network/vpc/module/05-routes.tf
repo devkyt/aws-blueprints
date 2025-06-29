@@ -29,10 +29,12 @@ resource "aws_route_table" "public" {
     gateway_id = aws_internet_gateway.current.id
   }
 
-  tags = merge(local.common_tags, {
-    Name = "${var.env}-public-route-table"
-    Type = "Public Route Table"
-  })
+  tags = merge(local.common_tags,
+    {
+      Name = "${var.env}-public-route-table"
+      Type = "Public Route Table"
+    }
+  )
 }
 
 
