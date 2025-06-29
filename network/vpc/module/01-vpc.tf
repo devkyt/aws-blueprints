@@ -5,7 +5,7 @@ resource "aws_vpc" "current" {
   enable_dns_support   = true
 
   tags = merge(local.common_tags, {
-    Name = "${var.env}-vpc"
+    Name = coalesce(var.vpc_name, "${var.env}-vpc")
     Type = "VPC"
   })
 }

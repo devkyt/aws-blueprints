@@ -5,6 +5,13 @@ variable "env" {
 }
 
 
+variable "vpc_name" {
+  description = "VPC name"
+  type        = string
+  default     = ""
+}
+
+
 variable "vpc_cidr" {
   description = "CIDR (Classless Inter-Domain Routing) block for the VPC"
   type        = string
