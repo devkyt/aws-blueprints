@@ -1,0 +1,24 @@
+apiVersion: secrets-store.csi.x-k8s.io/v1
+kind: SecretProviderClass
+metadata:
+  name: "${ name }"
+  namespace: "${ namespace }"
+  labels: ${jsonencode(labels)}
+spec:
+  provider: aws
+  parameters:
+    objects: |
+      %{ for secret in secrets }
+      - objectName: "${ secret.arn }"
+        objectType: "secretsmanager" 
+      %{ endfor }
+    usePodIdentity: "${ use_pod_identity }"
+  secretObjects:
+    %{ for secret in secrets }
+    - secretName: "${ secret.name }"
+      type: Opaque
+      labels: ${jsonencode(labels)}
+      data:
+        - objectName: "${ secret.arn }"
+          key: "${ secret.key }"
+    %{ endfor }

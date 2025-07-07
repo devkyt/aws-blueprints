@@ -14,7 +14,7 @@ resource "helm_release" "secret_store_csi_driver" {
   values = [
     templatefile("${path.module}/charts/csi-driver.values.yaml",
       {
-        resources   = var.secrets_store_csi_driver_resources
+        resources   = var.secrets_store_csi_driver_resources,
         sync_secret = var.sync_secrets_to_cluster
       }
     )

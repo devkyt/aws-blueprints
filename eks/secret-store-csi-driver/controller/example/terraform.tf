@@ -10,7 +10,6 @@ provider "aws" {
   region = local.region
 }
 
-
 provider "helm" {
   kubernetes {
     host                   = local.cluster_endpoint

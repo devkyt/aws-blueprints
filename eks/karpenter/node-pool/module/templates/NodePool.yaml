@@ -1,0 +1,43 @@
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: "${ pool_name }"
+  namespace: default
+spec:
+  template:
+    metadata:
+      labels: ${jsonencode(labels)}
+    spec:
+      requirements:
+        - key: "topology.kubernetes.io/zone"
+          operator: In
+          values: ["${ region }a", "${ region }b"]
+        - key: kubernetes.io/arch
+          operator: In
+          values: ${jsonencode(arch)}
+        - key: kubernetes.io/os
+          operator: In
+          values: ["linux"]
+        - key: karpenter.sh/capacity-type
+          operator: In
+          values: ${jsonencode(capacity)}
+        - key: node.kubernetes.io/instance-type
+          operator: In
+          values: ${jsonencode(instance_type)}
+      nodeClassRef:
+        group: karpenter.k8s.aws
+        kind: EC2NodeClass
+        name: ${ class_name }
+      taints:
+      - key:  "${ pool_name }"
+        value: "true"
+        effect: "NoSchedule"
+      expireAfter: "${ ttl }" 
+  limits:
+    cpu: "${ max_cpu }"
+    memory: "${ max_memory }"
+  disruption:
+    consolidationPolicy: "${ disruption_policy }"
+    consolidateAfter: "${ disruption_after }"
+    budget:
+      nodes: "${ disruption_nodes_per_time }"
