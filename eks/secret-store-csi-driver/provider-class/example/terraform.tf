@@ -2,7 +2,7 @@ terraform {
   backend "s3" {
     bucket = "bucket"
     region = local.region
-    key    = "app/crds/terraform.tfstate"
+    key    = "app/provider-class/terraform.tfstate"
   }
 
   required_providers {
