@@ -2,7 +2,7 @@ terraform {
   backend "s3" {
     bucket = "bucket"
     region = "eu-central-1"
-    key    = "vpc/terraform.tfstate"
+    key    = "path/to/terraform.tfstate"
   }
 
   required_providers {

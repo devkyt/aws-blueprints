@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket = "bucket"
-    key    = "app/target-group-binding/terraform.tfstate"
+    key    = "path/to/terraform.tfstate"
     region = local.region
   }
 
