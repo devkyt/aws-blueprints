@@ -15,7 +15,7 @@ variable "region" {
 variable "cluster_name" {
   description = "Cluster name"
   type        = string
-  default     = "mesurement-friends"
+  default     = "mastermind"
 }
 
 
