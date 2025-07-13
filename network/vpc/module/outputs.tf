@@ -3,10 +3,12 @@ output "vpc_id" {
   value       = aws_vpc.current.id
 }
 
+
 output "private_subnets_ids" {
   description = "The ids of created private subnets"
   value       = aws_subnet.private[*].id
 }
+
 
 output "public_subnets_ids" {
   description = "The ids of created public subnets"
