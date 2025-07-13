@@ -44,21 +44,21 @@ variable "pod_identity_addon" {
 variable "core_dns_addon" {
   description = "Configuration for the Core DNS"
   type = object({
-    version  = string
-    replicas = number
+    version       = string
+    replicas      = number
+    node_selector = map(string)
     tolerations = list(object({
       key      = string
       operator = string
       value    = string
       effect   = string
     }))
-    node_selector = map(string)
   })
   default = {
     version       = "v1.11.4-eksbuild.14"
     replicas      = 3
-    tolerations   = []
     node_selector = {}
+    tolerations   = []
   }
 }
 
@@ -68,19 +68,20 @@ variable "ebs_csi_driver_addon" {
   type = object({
     version              = string
     service_account_name = string
+    node_selector        = map(string)
     tolerations = list(object({
       key      = string
       operator = string
       value    = string
       effect   = string
     }))
-    node_selector = map(string)
+
   })
   default = {
     version              = "v1.45.0-eksbuild.2"
     service_account_name = "ebs-csi-controller-sa"
-    tolerations          = []
     node_selector        = {}
+    tolerations          = []
   }
 }
 
