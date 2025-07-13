@@ -6,7 +6,7 @@ locals {
   cluster_endpoint       = data.aws_eks_cluster.eks.endpoint
 
   labels = {
-    office = "Hamburg"
+    office = "London"
     team   = "Queens of the Stone Age"
   }
 }

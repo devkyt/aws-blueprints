@@ -1,4 +1,4 @@
 data "aws_eks_cluster" "current" {
-  name = var.cluster
+  name = local.cluster
 }
 

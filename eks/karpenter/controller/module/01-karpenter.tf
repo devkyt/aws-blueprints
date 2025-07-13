@@ -1,9 +1,9 @@
 module "karpenter" {
   source  = "terraform-aws-modules/eks/aws//modules/karpenter"
-  version = var.karpenter.module_version
+  version = var.module_version
 
-  cluster_name          = var.cluster_name
-  namespace             = var.karpenter.namespace
+  cluster_name          = var.cluster
+  namespace             = var.namespace
   enable_v1_permissions = true
 
   node_iam_role_use_name_prefix   = false
@@ -23,7 +23,7 @@ module "karpenter" {
   tags = merge(local.tags,
     {
       Name    = "karpenter"
-      Cluster = local.cluster_name
+      Cluster = local.cluster
       Type    = "autoscaler"
     }
   )
@@ -33,11 +33,10 @@ module "karpenter" {
 resource "helm_release" "karpenter" {
   name = "karpenter"
 
-  repository = "oci://public.ecr.aws/karpenter"
-  chart      = "karpenter"
-  version    = var.karpenter.chart_version
-
-  namespace        = var.karpenter.namespace
+  repository       = "oci://public.ecr.aws/karpenter"
+  chart            = "karpenter"
+  version          = var.chart_version
+  namespace        = var.namespace
   create_namespace = true
 
   wait    = true
@@ -46,11 +45,11 @@ resource "helm_release" "karpenter" {
   values = [
     templatefile("${path.module}/chart/values.yaml",
       {
-        cluster_name : local.cluster_name,
+        cluster_name : local.cluster,
         cluster_endpoint : local.cluster_endpoint,
         interruption_queue : module.karpenter.queue_name,
-        node_selector : var.karpenter.node_selector,
-        tolerations : var.karpenter.tolerations,
+        node_selector : var.node_selector,
+        tolerations : var.tolerations,
       }
     )
   ]

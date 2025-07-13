@@ -1,8 +1,8 @@
 terraform {
   backend "s3" {
     bucket = "bucket"
-    region = local.region
     key    = "app/target-group-binding/terraform.tfstate"
+    region = local.region
   }
 
   required_providers {

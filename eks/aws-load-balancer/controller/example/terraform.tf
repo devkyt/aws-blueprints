@@ -3,7 +3,7 @@ terraform {
 
   backend "s3" {
     bucket  = "bucket"
-    key     = "eks/karpenter/terraform.tfstate"
+    key     = "eks/aws-load-balancer/terraform.tfstate"
     region  = local.region
     encrypt = true
   }

@@ -1,53 +1,60 @@
 variable "env" {
-  type        = string
   description = "Target environment name"
+  type        = string
   default     = "dev"
 }
 
 
 variable "region" {
-  type        = string
   description = "AWS region"
+  type        = string
   default     = "eu-central-1"
 }
 
 
-variable "cluster_name" {
-  type        = string
+variable "cluster" {
   description = "The name of the EKS cluster"
+  type        = string
 }
 
 
-variable "karpenter" {
-  description = "Configuration for Karpenter autoscaler"
-  type = object({
-    module_version = string
-    chart_version  = string
-    namespace      = string
-    iam_role_name  = string
-    node_selector  = map(string)
-    tolerations = list(object({
-      key      = string
-      operator = string
-      value    = string
-      effect   = string
-      })
-    )
-  })
-  default = {
-    module_version = "20.36.0"
-    chart_version  = "1.4.0"
-    namespace      = "karpenter"
-    node_selector = {
-      control = "true"
-    }
-    tolerations = [{
-      key      = "control"
-      operator = "Equal"
-      value    = "true"
-      effect   = "NoSchedule"
-    }]
-  }
+variable "module_version" {
+  description = "Karpenter version"
+  type        = string
+  default     = "20.36.0"
+}
+
+
+variable "chart_version" {
+  description = "Karpenter Helm Chart version"
+  type        = string
+  default     = "1.4.0"
+}
+
+
+variable "namespace" {
+  description = "Namespace where Karpenter will operate"
+  type        = string
+  default     = "karpenter"
+}
+
+
+variable "node_selector" {
+  description = "Node selector for the Karpenter"
+  type        = map(string)
+  default     = {}
+}
+
+
+variable "tolerations" {
+  description = "Tolerations for the Karpenter"
+  type = list(object({
+    key      = string
+    operator = string
+    value    = string
+    effect   = string
+  }))
+  default = []
 }
 
 
@@ -62,6 +69,21 @@ variable "iam_role_additional_policies" {
   type        = map(string)
   description = "Additional policies to be attached to the Karpenter IAM role"
   default     = {}
+}
+
+
+variable "node_classes" {
+  description = "Configuration for Node Classes managed by Karpenter"
+  type = list(object({
+    name = string
+    ami  = string
+  }))
+  default = [
+    {
+      name = "default"
+      ami  = "ami-00a61821236f192f0"
+    }
+  ]
 }
 
 

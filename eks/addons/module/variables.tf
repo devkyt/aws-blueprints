@@ -11,8 +11,8 @@ variable "region" {
 }
 
 
-variable "cluster_name" {
-  description = "Name of the EKS cluster"
+variable "cluster" {
+  description = "Name of the cluster"
   type        = string
 }
 
@@ -83,22 +83,6 @@ variable "ebs_csi_driver_addon" {
     node_selector        = {}
   }
 }
-
-
-
-variable "load_balancer_addon" {
-  description = "Configuration for the Load Balancer"
-  type = object({
-    version              = string
-    service_account_name = string
-  })
-  default = {
-    name                 = "aws-load-balancer-controller"
-    version              = "2.13.3"
-    service_account_name = "aws-load-balancer-controller"
-  }
-}
-
 
 
 variable "tags" {

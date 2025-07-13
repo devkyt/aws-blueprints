@@ -1,7 +1,7 @@
 resource "aws_eks_addon" "core_dns" {
   addon_name                  = "coredns"
   addon_version               = var.core_dns_addon.version
-  cluster_name                = var.cluster_name
+  cluster_name                = var.cluster
   resolve_conflicts_on_create = "OVERWRITE"
 
   configuration_values = jsonencode({
@@ -23,8 +23,8 @@ resource "aws_eks_addon" "core_dns" {
 
   tags = merge(local.tags,
     {
-      Name  = "${var.cluster_name}-core-dns"
-      Type  = "CoreDNS Addon"
+      Name  = "${var.cluster}-core-dns"
+      Type  = "CoreDNS"
       Addon = true
     }
   )

@@ -28,6 +28,9 @@ resource "kubectl_manifest" "node_pools" {
 
   yaml_body = each.value.documents[0]
 
-  depends_on = [kubectl_manifest.node_class]
+  depends_on = [
+    kubectl_manifest.node_classes,
+    data.kubectl_file_documents.node_pools
+  ]
 }
 
