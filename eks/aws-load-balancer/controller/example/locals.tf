@@ -1,4 +1,5 @@
 locals {
+  env    = "dev"
   region = "eu-central-1"
 
   cluster          = "mastermind"

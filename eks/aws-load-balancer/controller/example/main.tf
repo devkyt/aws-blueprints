@@ -1,10 +1,10 @@
 module "load_balancer" {
   source = "git::git@github.com:devkyt/aws-blueprints.git//eks/aws-load-balancer/controller/module"
 
-  env    = "dev"
+  env    = local.env
   region = local.region
+  vpc_id = local.vpc_id
 
-  vpc_id    = local.vpc_id
   cluster   = local.cluster
   namespace = "kube-system"
 

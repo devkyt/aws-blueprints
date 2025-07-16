@@ -1,7 +1,7 @@
 module "karpenter" {
   source = "git::git@github.com:devkyt/aws-blueprints.git//eks/karpenter/controller/module"
 
-  env    = "dev"
+  env    = local.env
   region = local.region
 
   cluster   = local.cluster
