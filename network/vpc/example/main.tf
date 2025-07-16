@@ -13,6 +13,7 @@ module "vpc" {
       # use these tags for private subnets if you are going to run EKS cluster in this VPC
       "kubernetes.io/role/internal-elb"  = "1"
       "kubernetes.io/cluster/mastermind" = "owned" # where mastermind is the cluster name (replace with your cluster name )
+      "karpenter.sh/discovery"           = "mastermind"
     }
   }
 
