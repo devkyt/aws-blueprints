@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket = "bucket"
-    region = "eu-central-1"
+    region = local.region
     key    = "path/to/terraform.tfstate"
   }
 
@@ -15,5 +15,5 @@ terraform {
 
 
 provider "aws" {
-  region = "eu-central-1"
+  region = local.region
 }
