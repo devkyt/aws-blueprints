@@ -6,11 +6,11 @@ output "vpc_id" {
 
 output "private_subnets_ids" {
   description = "The ids of created private subnets"
-  value       = module.vpc.private_subnets
+  value       = module.vpc.private_subnets_ids
 }
 
 
 output "public_subnets_ids" {
   description = "The ids of created public subnets"
-  value       = module.vpc.public_subnets
+  value       = module.vpc.public_subnets_ids
 }
