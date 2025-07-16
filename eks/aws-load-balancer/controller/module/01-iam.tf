@@ -30,7 +30,7 @@ resource "aws_iam_role" "current" {
 
 resource "aws_iam_policy" "current" {
   name   = "AWSLoadBalancerController"
-  policy = file("${path.module}/iam/AWSLoadBalancerController.json")
+  policy = file("${path.module}/policies/AWSLoadBalancerController.json")
 }
 
 
